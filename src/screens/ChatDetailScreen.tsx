@@ -400,7 +400,8 @@ export const ChatDetailScreen: React.FC = () => {
         senderAvatar: currentUser.avatar,
         imageUrl: uploadedUrl,
         members: effectiveMembers,
-        receiverName: partnerStatus.name || userName,
+        groupName: isGroup ? userName : undefined,
+        receiverName: isGroup ? undefined : (partnerStatus.name || userName),
       });
 
       scrollToBottom();
@@ -439,7 +440,8 @@ export const ChatDetailScreen: React.FC = () => {
         lat: coords.latitude,
         lng: coords.longitude,
         members: effectiveMembers,
-        receiverName: partnerStatus.name || userName,
+        groupName: isGroup ? userName : undefined,
+        receiverName: isGroup ? undefined : (partnerStatus.name || userName),
       });
 
       setIsLocating(false);
@@ -1462,4 +1464,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  fullS
+  fullScreenImage: {
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
+  },
+});

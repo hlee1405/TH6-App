@@ -24,7 +24,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export const CreateGroupScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const insets = useSafeAreaInsets();
-  const { contacts, createGroup, theme } = useApp();
+  const { currentUser, contacts, createGroup, theme } = useApp();
   const colors = theme.colors;
 
   const [groupName, setGroupName] = useState('');
