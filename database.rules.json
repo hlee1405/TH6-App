@@ -1,0 +1,65 @@
+{
+  "rules": {
+    "users": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "conversations": {
+      ".read": "auth != null",
+      "$convId": {
+        ".read": "auth != null",
+        ".write": "auth != null && (!data.exists() || data.child('members/' + auth.uid).val() === true)"
+      }
+    },
+    "messages": {
+      "$convId": {
+        ".read": "auth != null && (root.child('conversations/' + $convId + '/members/' + auth.uid).val() === true || !root.child('conversations/' + $convId).exists())",
+        "$msgId": {
+          ".write": "auth != null && (!data.exists() || (data.child('senderId').val() === auth.uid && (newData.child('recalled').val() === true || data.child('recalled').val() === false)) || newData.child('reactions').exists())",
+          "recalled": {
+            ".write": "auth != null && data.parent().child('senderId').val() === auth.uid"
+          },
+          "reactions": {
+            "$uid": {
+              ".write": "auth != null && auth.uid === $uid"
+            }
+          }
+        }
+      }
+    },
+    "userChats": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        "$convId": {
+          ".write": "auth != null"
+        }
+      }
+    },
+    "readStatus": {
+      "$convId": {
+        ".read": "auth != null",
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid"
+        }
+      }
+    },
+    "typing": {
+      "$convId": {
+        ".read": "auth != null",
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid"
+        }
+      }
+    },
+    "notifications": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        "$notifId": {
+          ".write": "auth != null"
+        }
+      }
+    }
+  }
+}
